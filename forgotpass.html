@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewpoint" content="width=device-width" initial-scale="1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="forgotPass_angular.js"></script>
+    <script >
+
+        /* $('#regform').submit(function(){
+
+         $.ajax({
+         url: '/registration',
+         type: post,
+         data : $('#regform').serialize(),
+         success: function(){
+         $('#succ').toggleClass('show alert alert-success');
+         }
+         });
+         return false;
+         });*/
+        $(document).ready(function() {
+            var url = window.location.href;
+            if(url.indexOf('true')>-1){
+                $('#succ').removeClass().addClass('alert alert-success');
+            }
+            else if(url.indexOf('false')>-1){
+                $('#fail').removeClass().addClass('alert alert-danger');
+
+
+            }
+
+        });
+
+
+
+    </script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <link rel="import" href="nav.html">
+
+    <title></title>
+</head>
+<body style="background-color: lightcyan"  ng-app="forgotApp" ng-controller="forgotController">
+
+<div id="navigation">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navitems">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/login">BookWorm</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navitems">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">One</a></li>
+                    <li><a href="#">Two</a></li>
+                    <li><a href="#">Three</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">One</a></li>
+                            <li><a href="#">Two</a></li>
+                            <li><a href="#">Three</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container-fluid" >
+    <div class="col-lg-2"> </div>
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="page-header"><h3 align="center">Forgot/Change Password</h3></div>
+                <form method="post"  id="regform">
+
+                    <div class="form-group" ng-hide="userExist">
+                        <label>UserName or Email</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+                            <input type="email" class="form-control" placeholder="UserName" name="email" ng-model="data.email">
+                        </div>
+                    </div>
+
+                    <div  ng-show="updateSucc" class="alert alert-success"><span  class="glyphicon glyphicon-ban-circle"></span><span style="margin-left: 5px">Congratulation! Password Updated Successfully</span><a href="#" class="close" data-dismiss="alert">&times</a> </div>
+                    <div ng-show="userExist">
+                        <div class="form-group">
+                            <label>Security Question:</label> <span style="font-weight: bold">{{securityQues }}</span>
+                            <div class="input-group">
+
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+                                <input type="ques" class="form-control" placeholder="Answer" name="ans" ng-model="ans">
+                            </div>
+                            <div  ng-hide="wrongans" class="alert alert-danger"><span id="failmsgicon" class="glyphicon glyphicon-ban-circle"></span><span style="margin-left: 5px">Wrong answer!</span><a href="#" class="close" data-dismiss="alert">&times</a> </div>
+                            <div><button ng-click="verifyUser()" class="btn btn-info"><span class="glyphicon glyphicon-play"></span>Submit</button></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <br/>
+                    <div ng-hide="userExist">
+
+                        <div id="fail" ng-hide="notexist" class="alert alert-danger"><span  class="glyphicon glyphicon-ban-circle"></span><span style="margin-left: 5px">User Doesnt Exist</span><a href="#" class="close" data-dismiss="alert">&times</a> </div>
+                        <hr/>
+                        <button ng-click="askQuestion()" class="btn btn-info"><span class="glyphicon glyphicon-play"></span>Submit</button>
+                        <a class="btn btn-success" href="/login"><span class="glyphicon glyphicon-ok"></span> Login</a>
+                    </div>
+
+                    <div ng-show="changepass">
+                        <hr/>
+                        <div class="form-group">
+                          <div>
+                            <label>New Password</label>
+                            <div class="input-group">
+
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+                                <input type="ques" class="form-control" placeholder="Answer" name="newpass" ng-model="data.newpass">
+                            </div>
+                          </div>
+                            <div>
+                            <label>Confirm Password</label>
+                            <div class="input-group">
+
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+                                <input type="ques" class="form-control" placeholder="Answer" name="data.confpass" ng-model="data.confpass">
+                            </div>
+                            </div>
+                            <div ng-hide="mismatch" class="alert alert-danger"><span  class="glyphicon glyphicon-ban-circle"></span><span style="margin-left: 5px">Password Mismatch</span><a href="#" class="close" data-dismiss="alert">&times</a> </div>
+                            <div><button ng-click="changePassword()" class="btn btn-info"><span class="glyphicon glyphicon-play"></span>Submit</button></div>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div></div>
+</div>
+</body>
+</html>

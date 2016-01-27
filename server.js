@@ -4,7 +4,7 @@
 var express= require('express');
 var app=express();
 var request=require('request');
-
+var url=require('url');
 var mongoose=require('mongoose');
 var bodyParser=require('body-parser');
 app.use(bodyParser.urlencoded({extended:true}));
@@ -14,7 +14,10 @@ var qnum=1;
 var userSchema = new mongoose.Schema({
     name:String,
     email:String,
-    password:String
+    password:String,
+    securityQues:String,
+    securityAns:String
+
 });
 var users = mongoose.model('users', userSchema);
 
@@ -29,6 +32,10 @@ var quesSchema = new mongoose.Schema({
     answer:String
 });
 var ques = mongoose.model('mcqs', quesSchema);
+
+app.get('/',function(req,res){
+   res.redirect('/login')
+});
 app.get('/login',function(req,res){
     res.sendfile('loginform.html');
 });
@@ -46,6 +53,16 @@ app.post('/login',function(req,res){
 
 });
 
+app.get('/totalques',function(req,res){
+    ques.count({}, function (err, resp) {
+        if (resp) {
+            //  res.write(err);
+            console.log('total ques:'+resp);
+            res.send(JSON.stringify(resp));
+        }
+
+    })
+});
 app.get('/submit_ques',function(req,res){
     res.sendfile('submit_ques.html');
 });
@@ -114,8 +131,14 @@ app.get('/ques',function(req,res){
 
 
 });
-app.get('/angularserver.js',function(req,res){
-    res.sendfile('angularserver.js');
+app.get('/Quiz_angularserver.js',function(req,res){
+    res.sendfile('Quiz_angularserver.js');
+});
+app.get('/forgotPass_angular.js',function(req,res){
+    res.sendfile('forgotPass_angular.js');
+});
+app.get('/register_angular.js',function(req,res){
+    res.sendfile('register_angular.js');
 });
 app.get('/dashboard',function(req,res){
     res.sendfile('dashboard.html');
@@ -135,12 +158,43 @@ app.get('/registration',function(req,res){
 app.get('/submitans',function(req,res){
     res.sendfile('quiz_report.html')
 });
+app.post('/updatePassword',function(req,res){
+
+    users.where('email', req.body.email).update({password:req.body.newpass}, function (err, count) {
+      if(count){
+
+          res.send('Successfull')
+      }
+    });
+});
+app.get('/forgotPassword',function(req,res){
+   res.sendfile('forgotpass.html');
+})
+app.get('/forgotpass',function(req,res){
+    var url=require('url');
+    var url_parts = url.parse(req.url, true);
+    var query = url_parts.query.email;  //
+    users.findOne({email:query},function(err,users){
+        if(users){
+            //  res.write(err);
+            res.send(users);
+        }
+        else{
+            res.send('User Doesnt Exist');
+
+        }
+    })
+})
 
 app.post('/registration',function(req,res){
+
+    console.log(req)
     var newuser = new users({
         name:req.body.name,
         email:req.body.email,
-        password:req.body.password
+        password:req.body.password,
+        securityQues:req.body.securityQues,
+        securityAns:req.body.securityAns
 
     });
 

@@ -6,34 +6,26 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script >
-
- /* $('#regform').submit(function(){
-
-            $.ajax({
-                url: '/registration',
-                type: post,
-                data : $('#regform').serialize(),
-                success: function(){
-                    $('#succ').toggleClass('show alert alert-success');
-                }
-            });
-            return false;
-        });*/
- $(document).ready(function() {
-     var url = window.location.href;
-     if(url.indexOf('true')>-1){
-         $('#succ').removeClass().addClass('alert alert-success');
-     }
-     else if(url.indexOf('false')>-1){
-         $('#fail').removeClass().addClass('alert alert-danger');
-
-
-     }
-
- });
-
-
-
+        /* $('#regform').submit(function(){
+         $.ajax({
+         url: '/registration',
+         type: post,
+         data : $('#regform').serialize(),
+         success: function(){
+         $('#succ').toggleClass('show alert alert-success');
+         }
+         });
+         return false;
+         });*/
+        $(document).ready(function() {
+            var url = window.location.href;
+            if(url.indexOf('true')>-1){
+                $('#succ').removeClass().addClass('alert alert-success');
+            }
+            else if(url.indexOf('false')>-1){
+                $('#fail').removeClass().addClass('alert alert-danger');
+            }
+        });
     </script>
     <script src="http://malsup.github.com/jquery.form.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
@@ -99,6 +91,23 @@
                         <div class="input-group">
                             <div class="input-group-addon"><span class="glyphicon glyphicon-star"></span></div>
                             <input type="password" class="form-control" placeholder="Password" name="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Security Question</label>
+                        <select name="securityQues">
+                            <option value="What is you favourite color?">What is you favourite color?</option>
+                            <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+                            <option value="When is your Dad's birthday?">When is your Dad's birthday?</option>
+                            <option value="What was the name of the best man at your wedding?">What was the name of the best man at your wedding?</option>
+                            <option value="What was the last destination you went for a vacation to?">What was the last destination you went for a vacation to?</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Answer</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-star"></span></div>
+                            <input type="text" class="form-control" placeholder="securityAns" name="securityAns">
                         </div>
                     </div>
                     <br/>

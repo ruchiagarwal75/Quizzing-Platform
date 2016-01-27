@@ -8,7 +8,7 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <script src="angularserver.js"></script>
+    <script src="Quiz_angularserver.js"></script>
 <script>
  $(document).ready(function(){
      var sec=0;
@@ -22,7 +22,8 @@
          }
 
      //    document.querySelector('#sp').innerHTML='<a href="#">Timer: '+min+':'+sec+'</a>';
-        $('#sp').html('<a href="#">Timer: '+min+':'+sec+'</a>');
+     //   $('#sp').html('<a href="#">Timer: '+min+':'+sec+'</a>');
+         $('#sp').html('Timer: '+min+':'+sec);
          counter++;
          sec++;
          if(min==15){
@@ -62,13 +63,18 @@
 
                     </ul>
                 </li>
-                <li style="position: relative; left:20px" id='sp'></li>
+                <li style="position: relative; left:20px" id='sp1'></li>
+                <li style="margin-left:600px"><a href="/login">Logout</a></li>
 
             </ul>
         </div>
     </div>
 </nav>
 <div class="container" >
+   <div class="row" style="margin-bottom: 50px">
+    <div class="col-lg-10"></div>
+    <div ng-hide="submitted" class="col-lg-2" style="position: relative; left:20px" id='sp'></div>   <!-- timer will be displayed here -->
+   </div>
     <div id="ques" class="jumbotron">
         <div id="question" ng-model="newQues" ng-hide="submitted">
         <div class="panel panel-default" style="padding: 50px">
@@ -98,7 +104,8 @@
 
         </div>
         <hr/>
-        <button id="next" class="btn btn-info" ng-click="nextQues()">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
+            <button ng-show="showPrev" id="prev" class="btn btn-info" ng-click="prevQues()">Previos <span class="glyphicon glyphicon-arrow-left"></span></button>
+        <button ng-show="showNext" id="next" class="btn btn-info" ng-click="nextQues()">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
         <button ng-click="submitAll()" class="btn btn-success" style="position: relative; float:right">Submit All <span class="glyphicon glyphicon-arrow-right"></span></button>
         </form>
     </div>
@@ -108,7 +115,7 @@
     <div ng-show="submitted">
         <h3 align="center">Quiz Report </h3>
         <p align="center">Congratulation! You have completed your quiz</p>
-        <h3 id='score' style="text-align:center" ng-model="correctans">Total Correct Answers : {{correctans}}  </h3>
+        <h3 id='score' style="text-align:center" ng-model="correctans">Total Correct Answers : {{correctans}} out of {{totalQues+1}} Questions  </h3>
     </div>
 
 

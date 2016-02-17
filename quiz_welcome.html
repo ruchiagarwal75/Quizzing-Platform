@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="myApp" ng-controller="myController">
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewpoint" content="width=device-width" initial-scale="1">
@@ -7,40 +7,23 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="Quiz_angularserver.js"></script>
 
     <title></title>
+
+    <script>
+        $(document).ready(function(){
+            var url = window.location.href;
+            var index=url.indexOf('sub=');
+            var sub=url.substr(index+4);
+          $('#openquiz > a').attr('href','/quiz_main?q=0&sub='+sub);
+        })
+    </script>
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navitems">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/login">BookWorm</a>
-        </div>
-        <div class="collapse navbar-collapse" id="navitems">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">One</a></li>
-                <li><a href="#">Two</a></li>
-                <li><a href="#">Three</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">On</a></li>
-                        <li><a href="#">Two</a></li>
-                        <li><a href="#">Three</a></li>
-                    </ul>
-                </li>
-                <li style="margin-left:700px"><a href="/login">Logout</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div ng-include="'candidateNav.html'"></div>
 <div class="page-header"><h1 style="text-align: center" >Take Your Quiz</h1></div>
 <div class="jumbotron">
     <h3 align="center">Quiz Rules </h3>
@@ -48,7 +31,7 @@
     expires.</p>
     <h3 style="text-align:center"> All the best !!</h3>
 </div>
-<div align="center"><a class="btn btn-info" href="/quiz_main?q=0">Take Quiz</a></div>
+<div id='openquiz' align="center"><a class="btn btn-info" >Take Quiz</a></div>
 
 
 </body>

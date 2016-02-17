@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="myController">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewpoint" content="width=device-width" initial-scale="1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="Quiz_angularserver.js"></script>
+
+    <title></title>
+</head>
+<body>
+
+<div ng-include="'candidateNav.html'"></div>
+<div class="page-header"><h1 style="text-align: center">Hello Admin! Welcome to Book Worms</h1></div>
+
+<div class="container" style="margin-left:10%">
+    <div class="rows" style="margin:auto ">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><a href="/createQuiz"> <img class="img-responsive" src="create.png" style=" height:150px;width:150px"></a></div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">  <a href="/editQuiz"><img class="img-responsive" src="edit.png" style=" height:150px;width:150px"></a></div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"> <a href="/deleteQuiz"> <img class="img-responsive" src="delete.jpg" style=" height:150px;width:150px"></a></div>
+
+    </div>
+
+
+
+    <div class="rows" style="margin:auto; padding-top: 200px ">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><a href="/enableQuiz"> <img class="img-responsive" src="enable.jpg"  style=" height:150px;width:150px"></a></div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">  <a href="/disableQuiz"><img class="img-responsive" src="disable.jpg" style=" height:150px;width:150px"></a></div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"> <a href="/scheduleQuiz"> <img class="img-responsive" src="schedule.png" style=" height:150px;width:130px"></a></div>
+
+    </div>
+</div>
+</body>
+</html>

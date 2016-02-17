@@ -79,6 +79,8 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="page-header"><h3 align="center">Submit An MCQ</h3></div>
+                <div id="succ" class="hide"><span id="msgicon" class="glyphicon glyphicon-ok-circle"></span><span style="margin-left: 5px">Submission Successful. Submit Another Question</span><a href="#" class="close" data-dismiss="alert">&times</a> </div>
+                <div id="fail" class="hide"><span id="failmsgicon" class="glyphicon glyphicon-ban-circle"></span><span style="margin-left: 5px">Submission Failed</span><a href="#" class="close" data-dismiss="alert">&times</a> </div>
                 <form method="post"  id="regform">
                     <div class="form-group">
                         <label>Your Question</label>
@@ -125,8 +127,7 @@
                         </div>
                     </div>
                     <br/>
-                    <div id="succ" class="hide"><span id="msgicon" class="glyphicon glyphicon-ok-circle"></span><span style="margin-left: 5px">Submission Successful</span><a href="#" class="close" data-dismiss="alert">&times</a> </div>
-                    <div id="fail" class="hide"><span id="failmsgicon" class="glyphicon glyphicon-ban-circle"></span><span style="margin-left: 5px">Submission Failed</span><a href="#" class="close" data-dismiss="alert">&times</a> </div>
+
                     <hr/>
 
                     <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-inbox"></span> Submit</button>

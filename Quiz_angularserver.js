@@ -10,10 +10,22 @@ app.controller('myController',function($scope,$http,$rootScope){
     $scope.timeout=false;
     $scope.showPrev=false;
     $scope.showNext=true;
-    $scope.submissions=[];
+    $scope.submissions={};
+    $scope.mcqSub=false;
     var quesNum=0;
 
+    var url = window.location.href;
+    var index=url.indexOf('sub=');
+    var sub=url.substr(index+4);
+
+    $http.get('/gradedquizzes').then(function(res){
+        $scope.quizzes=res.data;
+    })
+
     $scope.nextQues=function() {
+        var url = window.location.href;
+        var index=url.indexOf('sub=');
+        var sub=url.substr(index+4);
         quesNum++;
        // console.log(quesNum+' '+totalQues);
     if($scope.prev!=true && quesNum!=0){
@@ -36,14 +48,16 @@ app.controller('myController',function($scope,$http,$rootScope){
             if (checkvalue == $scope.newQues.answer) {
 
                 $rootScope.correctans++;
-                localStorage.correctans=$rootScope.correctans;
+               localStorage.correctans=$rootScope.correctans;
 
             }
-        }
+            $scope.submissions['q'+quesNum]=checkvalue;
+            console.log($scope.submissions)
+      }
 
     }
 
-    $http.get('/ques?q='+quesNum)
+    $http.get('/ques?q='+quesNum+"&sub="+sub)
         .then(function(resp) {
             var responce=resp.data;
             console.log(typeof responce)
@@ -65,7 +79,9 @@ app.controller('myController',function($scope,$http,$rootScope){
 }
 
     $scope.prevQues= function(){
-
+        var url = window.location.href;
+        var index=url.indexOf('sub=');
+        var sub=url.substr(index+4);
       quesNum--;
         if(quesNum==0){
             $scope.showPrev=false;
@@ -73,7 +89,7 @@ app.controller('myController',function($scope,$http,$rootScope){
         if(quesNum!=$scope.totalQues){
             $scope.showNext=true;
         }
-        $http.get('/ques?q='+quesNum)
+        $http.get('/ques?q='+quesNum+"&sub="+sub)
             .then(function(resp) {
                 var responce=resp.data;
               //  console.log(typeof responce)
@@ -89,7 +105,27 @@ app.controller('myController',function($scope,$http,$rootScope){
 
 $scope.submitAll=function(){
    // window.location.href='/submitans';
+    quesNum++;
     $scope.submitted=true;
+    var check = document.querySelectorAll('input.check');
+    var checkvalue = '';
+    for (var i = 0; i < check.length; i++) {
+
+        if (check[i].checked == true) {
+            checkvalue = (check[i].value);
+            check[i].checked = false;
+            //console.log($scope.newQues.answer);
+            if (checkvalue == $scope.newQues.answer) {
+
+                $rootScope.correctans++;
+                localStorage.correctans=$rootScope.correctans;
+
+            }
+            $scope.submissions['q'+quesNum]=checkvalue;
+            console.log($scope.submissions)
+        }
+
+    }
    // console.log('ans submitted');
 }
 
@@ -98,15 +134,74 @@ $scope.submitAll=function(){
         $scope.submitted=true;
     }
 
-    var url = window.location.href;
-    if(url.indexOf('0')>-1){
-        $http.get('/ques?q=0')
-            .then(function(responce){
+    $scope.viewSubmission=function(){
+        $scope.mcqSub=true;
+       /* sno:String,
+            question:String,
+            option1:String,
+            option2:String,
+            option3:String,
+            option4:String,
+            answer:String*/
+        $http.get('/getQues?sub='+sub).then(function(resp){
+         $scope.mcqs=resp.data;
+         for(var i=0;i<$scope.mcqs.length;i++){
 
+             $scope.mcqs[i].submission=$scope.submissions['q'+(i+1)];
+             if($scope.mcqs[i].answer=='op1'){
+                 $scope.mcqs[i].answer=$scope.mcqs[i].option1;
+             }
+             else if($scope.mcqs[i].answer=='op2'){
+                 $scope.mcqs[i].answer=$scope.mcqs[i].option2;
+             }
+            else if($scope.mcqs[i].answer=='op3'){
+                 $scope.mcqs[i].answer=$scope.mcqs[i].option3;
+             }
+            else if($scope.mcqs[i].answer=='op4'){
+                 $scope.mcqs[i].answer=$scope.mcqs[i].option4;
+             }
+           //same forsubmissions
+             if($scope.mcqs[i].submission=='op1'){
+                 $scope.mcqs[i].submission=$scope.mcqs[i].option1;
+             }
+             else if($scope.mcqs[i].submission=='op2'){
+                 $scope.mcqs[i].submission=$scope.mcqs[i].option2;
+             }
+             else if($scope.mcqs[i].submission=='op3'){
+                 $scope.mcqs[i].submission=$scope.mcqs[i].option3;
+             }
+             else if($scope.mcqs[i].submission=='op4'){
+                 $scope.mcqs[i].submission=$scope.mcqs[i].option4;
+             }
+
+            //check if submission is correct answer or not
+             if($scope.mcqs[i].submission==$scope.mcqs[i].answer){
+                 console.log('***'+$scope.mcqs[i].submission)
+                 $scope.mcqs[i].correct='alert alert-success'
+             }
+             else if(($scope.mcqs[i].submission!=$scope.mcqs[i].answer)){
+                 console.log('$$'+$scope.mcqs[i].submission)
+                 $scope.mcqs[i].correct='alert alert-danger'
+             }
+
+         }
+
+
+        })
+    }
+
+
+
+    //below code is for first question on the screen.
+
+
+    if(url.indexOf('0')>-1){
+        $http.get('/ques?q=0&sub='+sub)
+            .then(function(responce){
                 $scope.newQues=responce.data;
 
             })
-        $http.get('totalques')
+        $http.get('totalques?sub='+sub)
             .then(function(respp){
 
                 $scope.totalQues=parseInt(respp.data)-1; // since question Number starts with 0.
